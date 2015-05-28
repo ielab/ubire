@@ -1,4 +1,4 @@
-# ubire - Understandability-biased IR Evaluation
+# ubire
 Understandability-biased IR Evaluation
 
 ..
