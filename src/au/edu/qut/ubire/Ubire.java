@@ -48,6 +48,7 @@ public class Ubire {
 		String qreadFile = "";
 		String docCharacteristics = "";
 		String rankingFile = "";
+		int stoprank=Integer.MAX_VALUE;
 		boolean directory=true; //TODO: incorporate this in property file
 		double RBPUserPatience = 0.8; //TODO: incorporate this in property file
 		boolean allqueries=true; //TODO: incorporate this in property file
@@ -61,12 +62,14 @@ public class Ubire {
 			qreadFile = prop.getProperty("qread");
 			docCharacteristics = prop.getProperty("docCharacteristics");
 			rankingFile = prop.getProperty("ranking");
+			stoprank = Integer.parseInt(prop.getProperty("stoprank"));
 		}else {
 			CommandLineParser parser = new DefaultParser();
 			Options options = new Options();
 			options.addOption( "h", "help", false, "show the help menu" );
 			options.addOption( "q", "allqueries", false, "provide evaluation for every single query" );
 			options.addOption( "d", "directory", false, "evaluate all runs in the given directory, not just a single run" );
+			
 			options.addOption( OptionBuilder.withLongOpt( "qrels-file" )
 					.isRequired()
                     .withDescription( "specify qrels file" )
@@ -92,6 +95,9 @@ public class Ubire {
 			options.addOption( OptionBuilder.withLongOpt( "readability" )
                     .withDescription( "specify whether to use readability-biased evaluation" )
                     .create() );
+			options.addOption( OptionBuilder.withLongOpt( "stoprank" )
+                    .withDescription( "specify at which rank to stop evaluating" )
+                    .create() );
 			HelpFormatter formatter = new HelpFormatter();
 			//TODO: resolve deprecations above
 			try {
@@ -116,6 +122,10 @@ public class Ubire {
 			    	allqueries=false;
 			    if( line.hasOption( "h" ) )
 			    	formatter.printHelp( "eire", options );
+			    if( line.hasOption( "stoprank" ) )
+			    	stoprank = Integer.parseInt(line.getOptionValue("stoprank"));
+			    else
+			    	stoprank = Integer.MAX_VALUE;
 			}catch( ParseException exp ) {
 			    System.out.println( "Unexpected exception:" + exp.getMessage() );
 			}
@@ -128,7 +138,7 @@ public class Ubire {
 		if(docCharacteristics.length()>0)
 			considerDocCharacteristics=true;
 		
-		//load qrels - with sepration character as the default separation character
+		//load qrels - with separation character as the default separation character
 		QueryQrels qrels = new QueryQrels();
 		qrels.readQrelsFile(qrelsFile, "", true);
 		qrels.readDocCharacteristicsFileQrelsFormat(qreadFile, "\t");
@@ -166,14 +176,14 @@ public class Ubire {
 					    //average = average +  measures.ndcgDocCharacteristics(); //measures.ndcgJarvelin();
 					    
 					    //System.out.println("Query " + queryid + "\trbp(0.95): " + measures.rbp(0.95));// .ndcgJarvelin());
-					    double thisRbp = measures.rbp(RBPUserPatience);
+					    double thisRbp = measures.rbp(RBPUserPatience, stoprank);
 					    averageRbp = averageRbp + thisRbp; //measures.ndcgJarvelin();
 					    
 					    //System.out.println("Query " + queryid + "\trbpDc(0.95): " + measures.rbpDocCharacteristics(0.95));// .ndcgJarvelin());
 					   //System.out.println("computing RBP with DocCharact. "); 
-					   double thisRbpDc = measures.rbpDocCharacteristics(RBPUserPatience);
+					   double thisRbpDc = measures.rbpDocCharacteristics(RBPUserPatience, stoprank);
 					   averageRbpDc = averageRbpDc +  thisRbpDc; //measures.ndcgJarvelin();
-					   double thisRbpDcGraded = measuresGraded.rbpDocCharacteristics(RBPUserPatience);
+					   double thisRbpDcGraded = measuresGraded.rbpDocCharacteristics(RBPUserPatience, stoprank);
 					   averageRbpDcGraded = averageRbpDcGraded +  thisRbpDcGraded;
 					   if(allqueries) {
 						   System.out.println("RBP(" + Double.toString(RBPUserPatience) + ")\t" + queryid + "\t" + file.getName() + "\t" + String.format( "%.4f", thisRbp ));
@@ -208,14 +218,14 @@ public class Ubire {
 			    //average = average +  measures.ndcgDocCharacteristics(); //measures.ndcgJarvelin();
 			    
 			    //System.out.println("Query " + queryid + "\trbp(0.95): " + measures.rbp(0.95));// .ndcgJarvelin());
-			    double thisRbp = measures.rbp(RBPUserPatience);
+			    double thisRbp = measures.rbp(RBPUserPatience, stoprank);
 			    averageRbp = averageRbp + thisRbp; //measures.ndcgJarvelin();
 			    
 			    //System.out.println("Query " + queryid + "\trbpDc(0.95): " + measures.rbpDocCharacteristics(0.95));// .ndcgJarvelin());
 			   //System.out.println("computing RBP with DocCharact. "); 
-			   double thisRbpDc = measures.rbpDocCharacteristics(RBPUserPatience);
+			   double thisRbpDc = measures.rbpDocCharacteristics(RBPUserPatience, stoprank);
 			   averageRbpDc = averageRbpDc +  thisRbpDc; //measures.ndcgJarvelin();
-			   double thisRbpDcGraded = measuresGraded.rbpDocCharacteristics(RBPUserPatience);
+			   double thisRbpDcGraded = measuresGraded.rbpDocCharacteristics(RBPUserPatience, stoprank);
 			   averageRbpDcGraded = averageRbpDcGraded +  thisRbpDcGraded;
 			   if(allqueries) {
 				   System.out.println("RBP(" + Double.toString(RBPUserPatience) + ")\t" + queryid + "\t" + runname + "\t" + String.format( "%.4f", thisRbp ));

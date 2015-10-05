@@ -336,10 +336,12 @@ public class IRmeasures {
 	}
 	
 	
-	public double rbp(double p){
+	public double rbp(double p, int stoprank){
 		double rbp=0.0;
 		for(Entry<Integer,String> e : this.ranking.ranking.entrySet()){
 			Integer rank = e.getKey();
+			if(rank > stoprank)
+				break;
 			String docid = e.getValue();
 			double discount=Math.pow(p,rank-1);
 			int relevance; 
@@ -369,10 +371,12 @@ public class IRmeasures {
 		return rbp;
 	}
 	
-	public double rbpDocCharacteristics(double p){
+	public double rbpDocCharacteristics(double p, int stoprank){
 		double rbp=0.0;
 		for(Entry<Integer,String> e : this.ranking.ranking.entrySet()){
 			Integer rank = e.getKey();
+			if(rank > stoprank)
+				break;
 			String docid = e.getValue();
 			double characteristicsScore=0.0;
 			try{
