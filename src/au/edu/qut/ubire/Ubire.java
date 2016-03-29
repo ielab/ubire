@@ -97,6 +97,8 @@ public class Ubire {
                     .create() );
 			options.addOption( OptionBuilder.withLongOpt( "stoprank" )
                     .withDescription( "specify at which rank to stop evaluating" )
+					.hasArg()
+					.withArgName("stoprank")
                     .create() );
 			HelpFormatter formatter = new HelpFormatter();
 			//TODO: resolve deprecations above
