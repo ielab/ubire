@@ -188,9 +188,9 @@ public class Ubire {
 					   double thisRbpDcGraded = measuresGraded.rbpDocCharacteristics(RBPUserPatience, stoprank);
 					   averageRbpDcGraded = averageRbpDcGraded +  thisRbpDcGraded;
 					   if(allqueries) {
-						   System.out.println("RBP(" + Double.toString(RBPUserPatience) + ")\t" + queryid + "\t" + file.getName() + "\t" + String.format( "%.4f", thisRbp ));
-						   System.out.println("uRBP(" + Double.toString(RBPUserPatience) + ")\t" + queryid + "\t" + file.getName() + "\t" + String.format( "%.4f", thisRbpDc )); 
-						   System.out.println("uRBPgr(" + Double.toString(RBPUserPatience) + ")\t" + queryid + "\t" + file.getName() + "\t" + String.format( "%.4f", thisRbpDcGraded ));  
+						   System.out.println("RBP(" + Double.toString(RBPUserPatience) + ")\t" + queryid + "\t" + String.format( "%.4f", thisRbp ));
+						   System.out.println("uRBP(" + Double.toString(RBPUserPatience) + ")\t" + queryid + "\t" + String.format( "%.4f", thisRbpDc ));
+						   System.out.println("uRBPgr(" + Double.toString(RBPUserPatience) + ")\t" + queryid + "\t" + String.format( "%.4f", thisRbpDcGraded ));
 					   }
 					}
 					
@@ -230,15 +230,16 @@ public class Ubire {
 			   double thisRbpDcGraded = measuresGraded.rbpDocCharacteristics(RBPUserPatience, stoprank);
 			   averageRbpDcGraded = averageRbpDcGraded +  thisRbpDcGraded;
 			   if(allqueries) {
-				   System.out.println("RBP(" + Double.toString(RBPUserPatience) + ")\t" + queryid + "\t" + runname + "\t" + String.format( "%.4f", thisRbp ));
-				   System.out.println("uRBP(" + Double.toString(RBPUserPatience) + ")\t" + queryid + "\t" + runname + "\t" + String.format( "%.4f", thisRbpDc )); 
-				   System.out.println("uRBPgr(" + Double.toString(RBPUserPatience) + ")\t" + queryid + "\t" + runname + "\t" + String.format( "%.4f", thisRbpDcGraded ));
+				   System.out.println("RBP(" + Double.toString(RBPUserPatience) + ")\t" + queryid + "\t" + String.format( "%.4f", thisRbp ));
+				   System.out.println("uRBP(" + Double.toString(RBPUserPatience) + ")\t" + queryid + "\t" + String.format( "%.4f", thisRbpDc ));
+				   System.out.println("uRBPgr(" + Double.toString(RBPUserPatience) + ")\t" + queryid + "\t" + String.format( "%.4f", thisRbpDcGraded ));
 			   }
 			}
-			
-			System.out.println("RBP(" + Double.toString(RBPUserPatience) + ")\t" + "all      " + "\t" + String.format( "%.4f", averageRbp/(double)queryQrels.size() ));
-			System.out.println("uRBP(" + Double.toString(RBPUserPatience) + ")\t" + "all      " + "\t" + String.format( "%.4f", averageRbpDc/(double)queryQrels.size() )); 
-			System.out.println("uRBPgr(" + Double.toString(RBPUserPatience) + ")\t" + "all      " + "\t" + String.format( "%.4f", averageRbpDcGraded/(double)queryQrels.size() ));
+
+            System.out.println("runid\t" + "all" + "\t" + runname );
+			System.out.println("RBP(" + Double.toString(RBPUserPatience) + ")\t" + "all" + "\t" + String.format( "%.4f", averageRbp/(double)queryQrels.size() ));
+			System.out.println("uRBP(" + Double.toString(RBPUserPatience) + ")\t" + "all" + "\t" + String.format( "%.4f", averageRbpDc/(double)queryQrels.size() ));
+			System.out.println("uRBPgr(" + Double.toString(RBPUserPatience) + ")\t" + "all" + "\t" + String.format( "%.4f", averageRbpDcGraded/(double)queryQrels.size() ));
 			
 			
 		}
