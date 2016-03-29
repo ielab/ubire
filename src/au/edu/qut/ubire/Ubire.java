@@ -142,8 +142,8 @@ public class Ubire {
 		
 		//load qrels - with separation character as the default separation character
 		QueryQrels qrels = new QueryQrels();
-		qrels.readQrelsFile(qrelsFile, "", true);
-		qrels.readDocCharacteristicsFileQrelsFormat(qreadFile, "\t");
+		qrels.readQrelsFile(qrelsFile, "\\s+", true);
+		qrels.readDocCharacteristicsFileQrelsFormat(qreadFile, "\\s+");
 		TreeMap<String,Qrels> queryQrels = new TreeMap<String,Qrels>(qrels.getQueryQrels());
 		DocCharacteristics docChar = new DocCharacteristics();
 		if(docCharacteristics.equalsIgnoreCase("true"))
@@ -162,7 +162,7 @@ public class Ubire {
 			    File file = p.toFile();
 				if (file.isFile() && !file.getName().startsWith(".")) {
 					QueryRanking rankings = new QueryRanking();
-					rankings.readRankingFile(file.getAbsolutePath(), " ");
+					rankings.readRankingFile(file.getAbsolutePath(), "\\s+");
 					
 					
 					double average=0.0,averageRbp =0.0, averageRbpDc=0.0, averageRbpDcGraded=0.0; 
@@ -203,7 +203,7 @@ public class Ubire {
 		}else{
 			
 			QueryRanking rankings = new QueryRanking();
-			rankings.readRankingFile(rankingFile, " ");
+			rankings.readRankingFile(rankingFile, "\\s+");
 			File file = new File(rankingFile);
 			String runname = file.getName();
 			
